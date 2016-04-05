@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Human Warmth</string>
+    <string name="lbl_endereco_recolhe">Endereço da doação</string>
+    <string name="lbl_doacao">O que será doado</string>
+    <string name="lbl_contato">Contato de quem irá buscar</string>
+    <string name="txt_hint_nome_contato">Nome</string>
+    <string name="txt_hint_email_contato">E-mail</string>
+    <string name="lbl_btn_buscar">Buscar</string>
 </resources>
