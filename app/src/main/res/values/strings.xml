@@ -6,4 +6,5 @@
     <string name="txt_hint_nome_contato">Nome</string>
     <string name="txt_hint_email_contato">E-mail</string>
     <string name="lbl_btn_buscar">Buscar</string>
+    <string name="lbl_btn_doar">Doar</string>
 </resources>

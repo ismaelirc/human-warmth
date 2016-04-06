@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/padding_activity_buscar"
+        tools:context=".BuscarActivity">
+
+        <TextView
+            android:id="@+id/endereco_doacao"
+            style="@style/HeadertextStyle"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_endereco_recolhe" />
+
+        <TextView
+            android:id="@+id/doacao"
+            style="@style/HeadertextStyle"
+            android:text="@string/lbl_doacao"
+            android:inputType="textMultiLine"
+            android:layout_height="wrap_content"
+            android:maxLines="5"
+            android:minLines="2"
+            android:singleLine="false"
+            android:lines="2"
+            />
+
+
+        <TextView
+            style="@style/HeadertextStyle"
+            android:text="@string/lbl_contato" />
+
+        <EditText
+            android:id="@+id/nome_contato"
+            android:hint="@string/txt_hint_nome_contato"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/email_contato"
+            android:hint="@string/txt_hint_email_contato"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"/>
+
+        <Button
+            android:id="@+id/btn_lets_go"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/azul_aquecer"
+            android:text="@string/lbl_btn_buscar"
+            android:textColor="@color/white" />
+
+
+    </LinearLayout>
+</ScrollView>
