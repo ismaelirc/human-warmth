@@ -2,9 +2,11 @@ package br.com.humanwarmth;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -16,6 +18,7 @@ import io.realm.RealmResults;
 public class DoarActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
+    private Toolbar toolbar;
     private Button btnDoar;
     public Realm realm;
 
@@ -27,7 +30,13 @@ public class DoarActivity extends AppCompatActivity {
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
+        //inicializa toolBar
+        initToolBar();
+
+        //seta os botões
         setUI();
+
+        //seta as actions dos botões
         setActions();
 
     }
@@ -57,4 +66,22 @@ public class DoarActivity extends AppCompatActivity {
         });
 
 
-    }}
+
+    }
+
+    public void initToolBar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        setSupportActionBar(toolbar);
+
+//        toolbar.setNavigationOnClickListener(
+//                new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Toast.makeText(MainActivity.this, "clicking the toolbar!", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//
+//        );
+    }
+}

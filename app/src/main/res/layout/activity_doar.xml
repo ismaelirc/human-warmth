@@ -10,21 +10,32 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/padding_activity_buscar"
         tools:context=".BuscarActivity">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+             />
 
         <TextView
             android:id="@+id/endereco_doacao"
-            style="@style/HeadertextStyle"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="5dp"
             android:text="@string/lbl_endereco_recolhe" />
 
         <TextView
             android:id="@+id/doacao"
-            style="@style/HeadertextStyle"
             android:text="@string/lbl_doacao"
             android:inputType="textMultiLine"
             android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="5dp"
             android:maxLines="5"
             android:minLines="2"
             android:singleLine="false"
@@ -34,7 +45,9 @@
 
         <TextView
             style="@style/HeadertextStyle"
-            android:text="@string/lbl_contato" />
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="5dp"
+            android:text="@string/lbl_contato_doador" />
 
         <EditText
             android:id="@+id/nome_contato"
@@ -46,6 +59,7 @@
 
         <EditText
             android:id="@+id/email_contato"
+            android:inputType="textEmailAddress"
             android:hint="@string/txt_hint_email_contato"
             android:layout_width="match_parent"
             android:layout_height="42dp"
@@ -56,7 +70,8 @@
             android:id="@+id/btn_doar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/azul_aquecer"
+            android:layout_marginTop="30dp"
+            android:background="@color/azul"
             android:text="@string/lbl_btn_doar"
             android:textColor="@color/white" />
 

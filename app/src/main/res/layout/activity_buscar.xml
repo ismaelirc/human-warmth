@@ -56,7 +56,7 @@
             android:id="@+id/btn_lets_go"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/azul_aquecer"
+            android:background="@color/azul"
             android:text="@string/lbl_btn_buscar"
             android:textColor="@color/white" />
 
