@@ -8,4 +8,19 @@
     <string name="txt_hint_email_contato">E-mail</string>
     <string name="lbl_btn_buscar">Buscar</string>
     <string name="lbl_btn_doar">Doar</string>
+
+    <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
+    <string name="no_geocoder_available">No geocoder available</string>
+
+    <string name="fetch_address">Fetch address</string>
+
+    <string name="address_found">Address found</string>
+
+    <string name="doacao_salva_com_sucesso">Sua doação foi salva com sucesso!</string>
+
+    <string name="no_address_found">Sorry, no address found</string>
+    <string name="no_location_data_provided">No location data provided</string>
+    <string name="service_not_available">Sorry, the service is not available</string>
+    <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
+
 </resources>
