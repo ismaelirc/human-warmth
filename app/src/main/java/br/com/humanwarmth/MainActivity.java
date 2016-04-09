@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         realm.getDefaultInstance();
         realm = Realm.getDefaultInstance();
-        
+
         // Iterate over all objects
         for (Doacao d : realm.allObjects(Doacao.class)) {
 
