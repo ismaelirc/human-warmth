@@ -1,6 +1,5 @@
 package br.com.humanwarmth;
 
-import android.content.Context;
 import android.content.Intent;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -8,8 +7,6 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -46,10 +43,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap maps;
     protected Location mLastLocation;
     private GoogleApiClient mGoogleApiClient;
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
-    protected Context context;
-    protected boolean gps_enabled,network_enabled;
 
     private HashMap<Marker, MyMarker> mMarkersHashMap;
     private ArrayList<MyMarker> mMyMarkersArray = new ArrayList<MyMarker>();
@@ -62,15 +55,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
+        //Método usada em desenvolvimento, para zerar toda a base do emulador
         //zerarBase();
 
-        //popula o array list com os pontos
+        //Popula o array list com os pontos salvos na base
         setMarkers();
 
-        //seta os botões
+        //Seta os botões da tela
         setUI();
 
-        //seta as actions dos botões
+        //Seta as actions dos botões
         setActions();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);

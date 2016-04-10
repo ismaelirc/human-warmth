@@ -18,9 +18,15 @@
 
     <string name="doacao_salva_com_sucesso">Sua doação foi salva com sucesso!</string>
 
-    <string name="no_address_found">Sorry, no address found</string>
-    <string name="no_location_data_provided">No location data provided</string>
-    <string name="service_not_available">Sorry, the service is not available</string>
-    <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
+    <string name="no_address_found">Desculpe, não foi possível encontrar o endereço</string>
+    <string name="no_location_data_provided">Não é possível encontrar o endereç</string>
+    <string name="service_not_available">Serviço de localização não disponível</string>
+    <string name="invalid_lat_long_used">As coordenadas da sua localização parecem ser inválidas</string>
+
+    <string name="name_empty">Informe o nome do responsável pela doação</string>
+    <string name="endereco_empty">Informe o endereço para doação</string>
+    <string name="doacao_empty">Informe o que será doado</string>
+    <string name="email_empty">Informe o email do responsável pela doação</string>
+
 
 </resources>

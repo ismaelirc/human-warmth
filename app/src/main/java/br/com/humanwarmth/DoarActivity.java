@@ -21,9 +21,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 
 import android.location.Location;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -36,15 +37,21 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
 
     private static final String TAG = "DoarActivity";
 
-    /**
-     * Provides the entry point to Google Play services.
-     */
     protected GoogleApiClient mGoogleApiClient;
+    protected Location mLastLocation;
+    Button btnDoar;
+    EditText txtEndereco;
+    EditText txtDoacao;
+    EditText txtNome;
+    EditText txtEmail;
+    Double latitude;
+    Double longitude;
+    Realm realm;
 
     /**
-     * Represents a geographical location.
+     * Visible while the address is being fetched.
      */
-    protected Location mLastLocation;
+    ProgressBar mProgressBar;
 
     /**
      * Tracks whether the user has requested an address. Becomes true when the user requests an
@@ -66,20 +73,6 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
      */
     private AddressResultReceiver mResultReceiver;
 
-    /**
-     * Visible while the address is being fetched.
-     */
-    ProgressBar mProgressBar;
-
-
-    Button btnDoar;
-    EditText txtEndereco;
-    EditText txtDoacao;
-    EditText txtNome;
-    EditText txtEmail;
-    Double latitude;
-    Double longitude;
-    Realm realm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,23 +119,26 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
             @Override
             public void onClick(View v) {
 
-                realm.getDefaultInstance();
-                realm = Realm.getDefaultInstance();
+                if(validateDoacao()){
 
-                realm.beginTransaction();
+                    realm.getDefaultInstance();
+                    realm = Realm.getDefaultInstance();
 
-                Doacao doacao = realm.createObject(Doacao.class);
-                doacao.setDescricao(txtDoacao.getText().toString());
-                doacao.setName(txtNome.getText().toString());
-                doacao.setEmail(txtEmail.getText().toString());
-                doacao.setEndereco(txtEndereco.getText().toString());
-                doacao.setLatitude(latitude);
-                doacao.setLongitude(longitude);
+                    realm.beginTransaction();
 
-                realm.commitTransaction();
+                    Doacao doacao = realm.createObject(Doacao.class);
+                    doacao.setDescricao(txtDoacao.getText().toString());
+                    doacao.setName(txtNome.getText().toString());
+                    doacao.setEmail(txtEmail.getText().toString());
+                    doacao.setEndereco(txtEndereco.getText().toString());
+                    doacao.setLatitude(latitude);
+                    doacao.setLongitude(longitude);
 
-                showToast(getString(R.string.doacao_salva_com_sucesso));
+                    realm.commitTransaction();
 
+                    showToast(getString(R.string.doacao_salva_com_sucesso));
+
+                }
             }
         });
     }
@@ -293,7 +289,52 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
      * Shows a toast with the given text.
      */
     protected void showToast(String text) {
+
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
+
+    }
+
+    /**
+     * Validar o form de doação
+     */
+    private boolean validateDoacao(){
+
+        txtNome.setError(null);
+        txtDoacao.setError(null);
+        txtEndereco.setError(null);
+        txtEmail.setError(null);
+
+        if(isEmpty(txtNome)){
+            txtNome.setError(getString(R.string.name_empty));
+            return false;
+        }
+
+        if(isEmpty(txtDoacao)){
+            txtDoacao.setError(getString(R.string.doacao_empty));
+            return false;
+        }
+
+        if(isEmpty(txtEndereco)){
+            txtEndereco.setError(getString(R.string.endereco_empty));
+            return false;
+        }
+
+        if(isEmpty(txtEmail) || !checkEmail(txtEmail.getText().toString())){
+
+            txtEmail.setError(getString(R.string.email_empty));
+            return false;
+
+        }
+
+        return true;
+    }
+
+    private boolean isEmpty(EditText etText) {
+        if (etText.getText().toString().trim().length() > 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -304,6 +345,20 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
         // Save the address string.
         savedInstanceState.putString(LOCATION_ADDRESS_KEY, mAddressOutput);
         super.onSaveInstanceState(savedInstanceState);
+    }
+
+    public static final Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-\\+]{1,256}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+                    "(" +
+                    "\\." +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+                    ")+"
+    );
+
+    private boolean checkEmail(String email) {
+        return EMAIL_ADDRESS_PATTERN.matcher(email).matches();
     }
 
     /**
