@@ -143,17 +143,6 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
 
                 showToast(getString(R.string.doacao_salva_com_sucesso));
 
-                for (Doacao d : realm.allObjects(Doacao.class)) {
-
-                    LatLng latlng = new LatLng(d.getLatitude(), d.getLongitude());
-
-                    Log.i(TAG, "Doação = " + d.getName() + d.getLatitude() + d.getLongitude());
-
-                }
-
-
-//                RealmResults<Doacao> results = realm.where(Doacao.class).findAll();
-//                Log.i(TAG, "O nome é: " + results.size());
             }
         });
     }
@@ -337,7 +326,6 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
             longitude = resultData.getDouble(Constants.LONGITUDE_ATUAL);
 
             Log.i(TAG, "Doação = " + latitude + "longitude: "+longitude);
-
 
             displayAddressOutput();
 

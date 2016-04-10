@@ -16,7 +16,6 @@
         <item name="android:textSize">18dp</item>
     </style>
 
-
     <!-- ToolBar -->
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@android:color/white</item>

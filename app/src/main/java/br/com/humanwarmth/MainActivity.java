@@ -16,20 +16,22 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import com.google.android.gms.plus.model.people.Person;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+
 
 /**
  * Classe principal. Lista os pontos e permite ir para qualquer lugar no app
@@ -49,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected Context context;
     protected boolean gps_enabled,network_enabled;
 
+    private HashMap<Marker, MyMarker> mMarkersHashMap;
+    private ArrayList<MyMarker> mMyMarkersArray = new ArrayList<MyMarker>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,18 +62,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
-//        realm.getDefaultInstance();
-//        realm = Realm.getDefaultInstance();
-//
-//        RealmResults<Doacao> results = realm.where(Doacao.class).findAll();
-//
-//        // All changes to data must happen in a transaction
-//        realm.beginTransaction();
-//
-//        // Delete all matches
-//        results.clear();
-//
-//        realm.commitTransaction();
+        //zerarBase();
+
+        //popula o array list com os pontos
+        setMarkers();
 
         //seta os botões
         setUI();
@@ -110,65 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         maps = googleMap;
 
-//        LatLng sydney = new LatLng(-33.867,151.206);
-//
-//        maps.setMyLocationEnabled(true);
-//
-//        maps.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
-//
-//        maps.addMarker(new MarkerOptions().title("Sydney").snippet("City popular").position(sydney));
-
-//        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-//
-//         //Add a marker and move the camera
-//        LatLng latlng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-//        maps.addMarker(new MarkerOptions().position(latlng).title("Teste"));
-//
-//        CameraPosition cameraPosition = new CameraPosition.Builder()
-//                .target(new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude()))
-//                .zoom(16)                   // Sets the zoom
-//                .tilt(45)                   // Sets the tilt of the camera to 30 degrees
-//                .build();
-//        maps.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-
-        realm.getDefaultInstance();
-        realm = Realm.getDefaultInstance();
-
-        // Iterate over all objects
-        for (Doacao d : realm.allObjects(Doacao.class)) {
-
-            LatLng latlng = new LatLng(d.getLatitude(), d.getLongitude());
-            maps.addMarker(new MarkerOptions()
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
-                    .position(latlng)
-                    .title("Doação de: "+d.getDescricao()));
-
-            Log.i(TAG, "Doação = " + d.getName() + d.getLatitude() + d.getLongitude());
-
-        }
-
-//        realm.getDefaultInstance();
-//        realm = Realm.getDefaultInstance();
-//
-//        realm.beginTransaction();
-//
-//        RealmResults<Doacao> results = realm.where(Doacao.class).findAll();
-//
-//
-//
-//        if(results.size() > 0){
-//
-//            for(int i = 0; i < results.size();i++){
-//
-//                Doacao doacao = realm.copyFromRealm() results.get(i);
-//
-//                Log.i(TAG, "Doação = " + doacao.getName() + doacao.getLatitude());
-//            }
-//
-//        }
-
-        //realm.commitTransaction();
+        plotMarkers(mMyMarkersArray);
 
     }
 
@@ -178,33 +117,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (mLastLocation != null) {
 
-//           // Log.i(TAG, "Latlnt = " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
-//
-//            LatLng latlng = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-////            maps.addMarker(new MarkerOptions()
-////                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
-////                    .position(latlng)
-////                    .title("Teste"));
-//            maps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 13));
+            Log.i(TAG, "Latlnt = " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+
+            LatLng latlngUser = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            maps.addMarker(new MarkerOptions()
+                            .position(latlngUser)
+                    );
+            maps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngUser, 13));
 
 
             realm.getDefaultInstance();
             realm = Realm.getDefaultInstance();
 
-
-
-            // Iterate over all objects
-            for (Doacao d : realm.allObjects(Doacao.class)) {
-
-                LatLng latlng = new LatLng(d.getLatitude(), d.getLongitude());
-                maps.addMarker(new MarkerOptions()
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
-                        .position(latlng)
-                        .title("Doação de: "+d.getDescricao()));
-
-                Log.i(TAG, "Doação = " + d.getName() + d.getLatitude());
-
-            }
+//            // Iterate over all objects
+//            for (Doacao d : realm.allObjects(Doacao.class)) {
+//
+//                LatLng latlng = new LatLng(d.getLatitude(), d.getLongitude());
+//                maps.addMarker(new MarkerOptions()
+//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
+//                        .position(latlng)
+//                        .title("Doação de: "+d.getDescricao()));
+//
+//                Log.i(TAG, "Doação = " + d.getName() + d.getLatitude());
+//            }
 
 
         } else {
@@ -256,9 +191,87 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
-//    private List<Doacao> loadDoacoes(){
-//
-//    }
 
+    private void setMarkers(){
 
+        realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
+
+        mMarkersHashMap = new HashMap<Marker, MyMarker>();
+
+        // Iterate over all objects
+        for (Doacao d : realm.allObjects(Doacao.class)) {
+
+            mMyMarkersArray.add(new MyMarker("Doação: "+d.getDescricao(),"Endereço: "+d.getEndereco(),"Responsável: "+d.getName()+" - "+d.getEmail(),d.getLatitude(),d.getLongitude()));
+
+        }
+    }
+
+    private void plotMarkers(ArrayList<MyMarker> markers)
+    {
+        if(markers.size() > 0)
+        {
+            for (MyMarker myMarker : markers)
+            {
+
+                // Create user marker with custom icon and other options
+                MarkerOptions markerOption = new MarkerOptions().position(new LatLng(myMarker.getmLatitude(), myMarker.getmLongitude()));
+                markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.marker));
+
+                Marker currentMarker = maps.addMarker(markerOption);
+                mMarkersHashMap.put(currentMarker, myMarker);
+
+                maps.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
+            }
+        }
+    }
+
+    private void zerarBase(){
+
+        realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
+
+        RealmResults<Doacao> results = realm.where(Doacao.class).findAll();
+
+        // All changes to data must happen in a transaction
+        realm.beginTransaction();
+
+        // Delete all matches
+        results.clear();
+
+        realm.commitTransaction();
+    }
+
+    public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        public MarkerInfoWindowAdapter() {}
+
+        @Override
+        public View getInfoWindow(Marker marker)
+        {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            View v  = getLayoutInflater().inflate(R.layout.info_window_marker, null);
+
+            MyMarker myMarker = mMarkersHashMap.get(marker);
+
+            TextView markerLabelDescricao = (TextView)v.findViewById(R.id.marker_label_descricao);
+
+            TextView markerLabelEndereco = (TextView)v.findViewById(R.id.marker_label_endereco);
+
+            TextView markerLabelResponsavel = (TextView)v.findViewById(R.id.marker_label_responsavel);
+
+            markerLabelDescricao.setText(myMarker.getmLabelDescricao());
+
+            markerLabelResponsavel.setText(myMarker.getmLabelResponsavel());
+
+            markerLabelEndereco.setText(myMarker.getmLabelEndereco());
+
+            return v;
+        }
+    }
 }
