@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Human Warmth</string>
+    <string name="app_name">Warmth</string>
     <string name="lbl_endereco_recolhe">Endereço da doação</string>
     <string name="lbl_doacao">O que será doado</string>
     <string name="lbl_contato">Contato de quem irá buscar</string>
