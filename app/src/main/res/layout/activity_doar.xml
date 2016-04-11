@@ -15,11 +15,13 @@
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
-            style="@style/ToolBarStyle"
-             />
+            style="@style/ToolBarStyle"/>
+
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -34,11 +36,11 @@
             android:layout_width="match_parent"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="5dp"
-            android:text="@string/lbl_endereco_recolhe" />
+            android:hint="@string/lbl_endereco_recolhe" />
 
         <EditText
             android:id="@+id/doacao"
-            android:text="@string/lbl_doacao"
+            android:hint="@string/lbl_doacao"
             android:inputType="textMultiLine"
             android:layout_height="42dp"
             android:layout_width="match_parent"
@@ -81,7 +83,8 @@
             android:layout_marginTop="30dp"
             android:background="@color/azul"
             android:text="@string/lbl_btn_doar"
-            android:textColor="@color/white"
+            android:textColor="@android:color/darker_gray"
+            android:enabled="false"
             android:onClick="fetchAddressButtonHandler"/>
 
 

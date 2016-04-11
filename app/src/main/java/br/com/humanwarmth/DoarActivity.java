@@ -1,5 +1,6 @@
 package br.com.humanwarmth;
 
+import android.graphics.Color;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -302,6 +303,7 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
         txtNome.setError(null);
         txtDoacao.setError(null);
         txtEndereco.setError(null);
+        txtEndereco.setError(null);
         txtEmail.setError(null);
 
         if(isEmpty(txtNome)){
@@ -392,6 +394,11 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
             // Reset. Enable the Fetch Address button and stop showing the progress bar.
             mAddressRequested = false;
             updateUIWidgets();
+
+            btnDoar.setTextColor(Color.parseColor("#FFFFFF"));
+            btnDoar.setEnabled(true);
+
+
         }
     }
 }

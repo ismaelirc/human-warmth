@@ -9,12 +9,12 @@
     <string name="lbl_btn_buscar">Buscar</string>
     <string name="lbl_btn_doar">Doar</string>
 
-    <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
-    <string name="no_geocoder_available">No geocoder available</string>
+    <string name="no_location_detected">Sem localização, Verifiquei se o serviço de localização foi ativado neste dispositivo</string>
+    <string name="no_geocoder_available">Não foi possível estabelecer uma localidade</string>
 
-    <string name="fetch_address">Fetch address</string>
+    <string name="fetch_address">Buscando endereço</string>
 
-    <string name="address_found">Address found</string>
+    <string name="address_found">Endereço encontrado</string>
 
     <string name="doacao_salva_com_sucesso">Sua doação foi salva com sucesso!</string>
 
@@ -27,6 +27,6 @@
     <string name="endereco_empty">Informe o endereço para doação</string>
     <string name="doacao_empty">Informe o que será doado</string>
     <string name="email_empty">Informe o email do responsável pela doação</string>
-
+    <string name="marker_user">Você</string>
 
 </resources>
