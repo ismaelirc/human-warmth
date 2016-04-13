@@ -1,7 +1,5 @@
 package br.com.humanwarmth;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 
 import com.google.android.gms.appindexing.Action;
@@ -99,27 +97,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.action_settings:
-//
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction fragment = fm.beginTransaction();
-//
-//                fragment.hide(fm.findFragmentById(R.id.map));
-//
-//                fragment.commit();
-//                return true;
-//
-//
-//            default:
-//                // If we got here, the user's action was not recognized.
-//                // Invoke the superclass to handle it.
-//                return super.onOptionsItemSelected(item);
-//
-//        }
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+
+                goToListView();
+
+                return true;
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -139,13 +133,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
+                Action.TYPE_VIEW,
+                "Main Page",
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://br.com.humanwarmth/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
@@ -157,13 +149,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
+                Action.TYPE_VIEW,
+                "Main Page",
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
                 Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://br.com.humanwarmth/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
@@ -266,6 +256,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
+    private void goToListView() {
+
+        Intent intent = new Intent(MainActivity.this, RecyclerViewActivity.class);
+
+        startActivity(intent);
+    }
+
 
     private void setMarkers() {
 
@@ -277,7 +274,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // Iterate over all objects
         for (Doacao d : realm.allObjects(Doacao.class)) {
 
-            mMyMarkersArray.add(new MyMarker("Doação: " + d.getDescricao(), "Endereço: " + d.getEndereco(), "Responsável: " + d.getName() + " - " + d.getEmail(), d.getLatitude(), d.getLongitude()));
+            mMyMarkersArray.add(new MyMarker("Doação: " + d.getDescricao(),
+                    "Endereço: " + d.getEndereco(),
+                    "Responsável: " + d.getName() + " - " + d.getEmail(),
+                    d.getLatitude(),
+                    d.getLongitude())
+            );
 
         }
     }

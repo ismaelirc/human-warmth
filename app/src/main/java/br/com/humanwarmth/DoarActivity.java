@@ -105,6 +105,11 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
     public void setUI(){
 
         btnDoar = (Button) findViewById(R.id.btn_doar);

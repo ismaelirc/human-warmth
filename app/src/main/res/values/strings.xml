@@ -29,4 +29,6 @@
     <string name="email_empty">Informe o email do responsável pela doação</string>
     <string name="marker_user">Você</string>
 
+    <string name="google_maps_key" >AIzaSyC-1hDPBcAnYycat4xV4V8GLW-I_6aag1I</string>
+
 </resources>
