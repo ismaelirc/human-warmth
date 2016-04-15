@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).build();
         Realm.setDefaultConfiguration(realmConfiguration);
 
-        //Método usada em desenvolvimento, para zerar toda a base do emulador
+        //Método usado em desenvolvimento, para zerar toda a base do emulador
         //zerarBase();
 
         //Popula o array list com os pontos salvos na base
@@ -85,8 +85,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         buildGoogleApiClient();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
@@ -180,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (mLastLocation != null) {
 
-            Log.i(TAG, "Latlnt = " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
+            //Log.i(TAG, "Latlnt = " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
 
             LatLng latlngUser = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             maps.addMarker(new MarkerOptions()
@@ -190,22 +188,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             btnDoar.setTextColor(Color.parseColor("#FFFFFF"));
             btnDoar.setEnabled(true);
-
-            realm.getDefaultInstance();
-            realm = Realm.getDefaultInstance();
-
-//            // Iterate over all objects
-//            for (Doacao d : realm.allObjects(Doacao.class)) {
-//
-//                LatLng latlng = new LatLng(d.getLatitude(), d.getLongitude());
-//                maps.addMarker(new MarkerOptions()
-//                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker))
-//                        .position(latlng)
-//                        .title("Doação de: "+d.getDescricao()));
-//
-//                Log.i(TAG, "Doação = " + d.getName() + d.getLatitude());
-//            }
-
 
         } else {
 

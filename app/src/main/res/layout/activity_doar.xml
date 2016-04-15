@@ -12,21 +12,11 @@
         android:layout_height="match_parent"
         tools:context=".DoarActivity">
 
-        <!--<android.support.v7.widget.Toolbar-->
-            <!--android:id="@+id/toolbar"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:background="?attr/colorPrimary"-->
-            <!--android:elevation="4dp"-->
-            <!--style="@style/ToolBarStyle"/>-->
-
 
         <ProgressBar
             android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_centerInParent="true" />
 
 
@@ -36,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="5dp"
-            android:hint="@string/lbl_endereco_recolhe" />
+            android:hint="@string/lbl_endereco_recolhe"
+            android:imeOptions="actionNext"/>
 
         <EditText
             android:id="@+id/doacao"
@@ -50,6 +41,7 @@
             android:minLines="2"
             android:singleLine="false"
             android:lines="2"
+            android:imeOptions="actionNext"
             />
 
 
@@ -65,7 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:imeOptions="actionNext"/>
 
         <EditText
             android:id="@+id/email_contato"
@@ -74,7 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:layout_marginBottom="16dp"
+            android:imeOptions="actionSend"/>
 
         <Button
             android:id="@+id/btn_doar"

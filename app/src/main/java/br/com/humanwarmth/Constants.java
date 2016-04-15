@@ -1,7 +1,7 @@
 package br.com.humanwarmth;
 
 /**
- * Constant values reused in this sample.
+ Constantes usadas no service de localização
  */
 public final class Constants {
     public static final int SUCCESS_RESULT = 0;

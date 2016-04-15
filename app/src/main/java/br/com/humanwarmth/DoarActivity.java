@@ -7,10 +7,14 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import io.realm.Realm;
@@ -49,28 +53,21 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
     Double longitude;
     Realm realm;
 
-    /**
-     * Visible while the address is being fetched.
-     */
     ProgressBar mProgressBar;
 
     /**
-     * Tracks whether the user has requested an address. Becomes true when the user requests an
-     * address and false when the address (or an error message) is delivered.
-     * The user requests an address by pressing the Fetch Address button. This may happen
-     * before GoogleApiClient connects. This activity uses this boolean to keep track of the
-     * user's intent. If the value is true, the activity tries to fetch the address as soon as
-     * GoogleApiClient connects.
+     * Controle para saber quando o usuário fez request de algum endereço.
+     * Caso retorne com um erro a variável passa para FALSE
      */
     protected boolean mAddressRequested;
 
     /**
-     * The formatted location address.
+     * O Endereço requisitado, já formatado
      */
     protected String mAddressOutput;
 
     /**
-     * Receiver registered with this activity to get the response from FetchAddressIntentService.
+     * Receiver para o service de localização
      */
     private AddressResultReceiver mResultReceiver;
 
@@ -85,9 +82,7 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
 
         mResultReceiver = new AddressResultReceiver(new Handler());
 
-        //mLocationAddressTextView = (TextView) findViewById(R.id.endereco_doacao);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        //mFetchAddressButton = (Button) findViewById(R.id.btn_doar);
 
         // Set defaults, then update using values stored in the Bundle.
         mAddressRequested = false;
@@ -97,11 +92,22 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
         setUI();
         setActions();
 
-        updateUIWidgets();
+        updateUI();
         buildGoogleApiClient();
 
         fetchAddressButtonHandler();
 
+        txtEmail.setOnEditorActionListener(new OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    savePoint();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
 
     }
 
@@ -124,34 +130,36 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
         btnDoar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(validateDoacao()){
-
-                    realm.getDefaultInstance();
-                    realm = Realm.getDefaultInstance();
-
-                    realm.beginTransaction();
-
-                    Doacao doacao = realm.createObject(Doacao.class);
-                    doacao.setDescricao(txtDoacao.getText().toString());
-                    doacao.setName(txtNome.getText().toString());
-                    doacao.setEmail(txtEmail.getText().toString());
-                    doacao.setEndereco(txtEndereco.getText().toString());
-                    doacao.setLatitude(latitude);
-                    doacao.setLongitude(longitude);
-
-                    realm.commitTransaction();
-
-                    showToast(getString(R.string.doacao_salva_com_sucesso));
-
-                }
+                savePoint();
             }
         });
     }
 
+    private void savePoint(){
+        if(validateDoacao()){
+
+            realm.getDefaultInstance();
+            realm = Realm.getDefaultInstance();
+
+            realm.beginTransaction();
+
+            Doacao doacao = realm.createObject(Doacao.class);
+            doacao.setDescricao(txtDoacao.getText().toString());
+            doacao.setName(txtNome.getText().toString());
+            doacao.setEmail(txtEmail.getText().toString());
+            doacao.setEndereco(txtEndereco.getText().toString());
+            doacao.setLatitude(latitude);
+            doacao.setLongitude(longitude);
+
+            realm.commitTransaction();
+
+            showToast(getString(R.string.doacao_salva_com_sucesso));
+
+        }
+    }
 
     /**
-     * Updates fields based on data stored in the bundle.
+     * Se já tem algo salvo em cache, popula os campos
      */
     private void updateValuesFromBundle(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
@@ -193,7 +201,7 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
         // fetch the address. As far as the user is concerned, pressing the Fetch Address button
         // immediately kicks off the process of getting the address.
         mAddressRequested = true;
-        updateUIWidgets();
+        updateUI();
     }
 
     @Override
@@ -267,7 +275,7 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
     public void onConnectionSuspended(int cause) {
         // The connection to Google Play services was lost for some reason. We call connect() to
         // attempt to re-establish the connection.
-        Log.i(TAG, "Connection suspended");
+        //Log.i(TAG, "Connection suspended");
         mGoogleApiClient.connect();
     }
 
@@ -281,13 +289,16 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
     /**
      * Toggles the visibility of the progress bar. Enables or disables the Fetch Address button.
      */
-    private void updateUIWidgets() {
+    private void updateUI() {
         if (mAddressRequested) {
+
             mProgressBar.setVisibility(ProgressBar.VISIBLE);
-            //mFetchAddressButton.setEnabled(false);
+            btnDoar.setEnabled(false);
+
         } else {
             mProgressBar.setVisibility(ProgressBar.GONE);
-            //mFetchAddressButton.setEnabled(true);
+            btnDoar.setEnabled(true);
+            btnDoar.setTextColor(Color.parseColor("#FFFFFF"));
         }
     }
 
@@ -311,8 +322,8 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
         txtEndereco.setError(null);
         txtEmail.setError(null);
 
-        if(isEmpty(txtNome)){
-            txtNome.setError(getString(R.string.name_empty));
+        if(isEmpty(txtEndereco)){
+            txtEndereco.setError(getString(R.string.endereco_empty));
             return false;
         }
 
@@ -321,14 +332,20 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
             return false;
         }
 
-        if(isEmpty(txtEndereco)){
-            txtEndereco.setError(getString(R.string.endereco_empty));
+        if(isEmpty(txtNome)){
+            txtNome.setError(getString(R.string.name_empty));
             return false;
         }
 
-        if(isEmpty(txtEmail) || !checkEmail(txtEmail.getText().toString())){
+        if(isEmpty(txtEmail)){
 
             txtEmail.setError(getString(R.string.email_empty));
+            return false;
+
+        }
+
+        if(!checkEmail(txtEmail.getText().toString())){
+            txtEmail.setError(getString(R.string.email_invalid));
             return false;
 
         }
@@ -369,7 +386,7 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
     }
 
     /**
-     * Receiver for data sent from FetchAddressIntentService.
+     * Receiver do Fetch Adress
      */
     class AddressResultReceiver extends ResultReceiver {
         public AddressResultReceiver(Handler handler) {
@@ -387,7 +404,7 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
             latitude = resultData.getDouble(Constants.LATITUDE_ATUAL);
             longitude = resultData.getDouble(Constants.LONGITUDE_ATUAL);
 
-            Log.i(TAG, "Doação = " + latitude + "longitude: "+longitude);
+            //Log.i(TAG, "Doação = " + latitude + "longitude: "+longitude);
 
             displayAddressOutput();
 
@@ -398,11 +415,10 @@ public class DoarActivity extends AppCompatActivity implements ConnectionCallbac
 
             // Reset. Enable the Fetch Address button and stop showing the progress bar.
             mAddressRequested = false;
-            updateUIWidgets();
+            updateUI();
 
             btnDoar.setTextColor(Color.parseColor("#FFFFFF"));
             btnDoar.setEnabled(true);
-
 
         }
     }

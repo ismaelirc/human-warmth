@@ -11,11 +11,8 @@
 
     <string name="no_location_detected">Sem localização, Verifiquei se o serviço de localização foi ativado neste dispositivo</string>
     <string name="no_geocoder_available">Não foi possível estabelecer uma localidade</string>
-
     <string name="fetch_address">Buscando endereço</string>
-
     <string name="address_found">Endereço encontrado</string>
-
     <string name="doacao_salva_com_sucesso">Sua doação foi salva com sucesso!</string>
 
     <string name="no_address_found">Desculpe, não foi possível encontrar o endereço</string>
@@ -26,9 +23,11 @@
     <string name="name_empty">Informe o nome do responsável pela doação</string>
     <string name="endereco_empty">Informe o endereço para doação</string>
     <string name="doacao_empty">Informe o que será doado</string>
-    <string name="email_empty">Informe o email do responsável pela doação</string>
+    <string name="email_empty">Informe o e-mail do responsável pela doação</string>
+    <string name="email_invalid">O e-mail informado parece ser inválido.</string>
     <string name="marker_user">Você</string>
 
-    <string name="google_maps_key" >AIzaSyC-1hDPBcAnYycat4xV4V8GLW-I_6aag1I</string>
+    <string name="google_maps_key">AIzaSyC-1hDPBcAnYycat4xV4V8GLW-I_6aag1I</string>
 
+    <string name="menu_lista">Lista</string>
 </resources>
