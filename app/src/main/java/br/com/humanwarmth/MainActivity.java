@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleApiClient mGoogleApiClient;
 
     private HashMap<Marker, MyMarker> mMarkersHashMap;
+    private ArrayList<Marker> markerlist = new ArrayList();
     private ArrayList<MyMarker> mMyMarkersArray = new ArrayList<MyMarker>();
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -178,16 +179,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (mLastLocation != null) {
 
+            if(markerlist.size() > 0){
+                for(Marker m : markerlist){
+                    m.remove();
+                }
+            }
+
             //Log.i(TAG, "Latlnt = " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
 
             LatLng latlngUser = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            maps.addMarker(new MarkerOptions()
-                    .position(latlngUser)
-                    .title(String.valueOf(R.string.marker_user)));
+            Marker marker = maps.addMarker(new MarkerOptions().position(latlngUser).title(String.valueOf(R.string.marker_user)));
+
+            markerlist.add(marker);
+
             maps.moveCamera(CameraUpdateFactory.newLatLngZoom(latlngUser, 13));
 
             btnDoar.setTextColor(Color.parseColor("#FFFFFF"));
             btnDoar.setEnabled(true);
+
 
         } else {
 
